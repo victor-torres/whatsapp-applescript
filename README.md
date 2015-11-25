@@ -2,7 +2,17 @@
 
 Send messages to WhatsApp via an AppleScript
 
-## How to use
+## Configuring
+
+Edit `whatsapp.js` with the conversation title (contact or group) and the message content:
+
+```
+// Conversation and message
+var conversation_title = 'Friend Name or Group Title';
+var message = 'This is a message sent via an AppleScript ;P';
+```
+
+## How to use it
 
 Make sure you have a Google Chrome's tab opened at https://web.whatsapp.com/ and it's properly logged in.
 
