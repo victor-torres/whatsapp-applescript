@@ -1,6 +1,3 @@
-var conversation_title = 'Friend Name or Group Title';
-var message = 'This is a message sent via an AppleScript ;P';
-
 var dispatch = function(target, eventType, char) {
     var evt = document.createEvent('TextEvent');
     evt.initTextEvent (eventType, true, true, window, char, 0, 'en-US');
