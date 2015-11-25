@@ -9,23 +9,26 @@ var dispatch = function(target, eventType, char) {
 };
 
 var selectConversation = function() {
-  return new Promise(function() {
+  return new Promise(function(resolve, reject) {
     var conversation = document.querySelector('[title="' + conversation_title + '"]');
     conversation.click();
+    resolve();
   });
 };
 
 var insertMessage = function() {
-  return new Promise(function() {
+  return new Promise(function(resolve, reject) {
     var textInput = document.querySelector('div.input');
     dispatch(textInput, 'textInput', message);
+    resolve();
   });
 };
 
 var sendMessage = function() {
-  return new Promise(function() {
+  return new Promise(function(resolve, reject) {
     var sendButton = document.querySelector('button.send-container');
     sendButton.click();
+    resolve();
   });
 };
 
