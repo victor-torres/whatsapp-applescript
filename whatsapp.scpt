@@ -32,8 +32,8 @@ on run(arguments)
 	set whatsapp to (read whatsapp_file)
 	close access whatsapp_file
 
-	set conversation_title to quoted form of first item of arguments
-	set message to quoted form of second item of arguments
+	set conversation_title to first item of arguments
+	set message to second item of arguments
 
 	set browsers to {"Google Chrome", "Google Chrome Canary"}
 	repeat with browser in browsers
