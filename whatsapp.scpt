@@ -1,14 +1,20 @@
-on ExecuteJavascript(browser, jquery, whatsapp, conversation_title, message)
+on is_running(app_name)
+    tell application "System Events" to (name of processes) contains app_name
+end is_running
+
+on execute_javascript(browser, jquery, whatsapp, conversation_title, message)
 	using terms from application "Google Chrome"
-		if not exists application browser then
+		set app_is_running to is_running(browser)
+		if not app_is_running then
 			return
 		end if
+
 		tell application browser
 			repeat with w in windows
 				repeat with t in tabs of w
 					if URL of t starts with "https://web.whatsapp.com/" then
-						execute t javascript ("var conversation_title = '" & conversation_title & "';")
-						execute t javascript ("var message = '" & message & "';")
+						execute t javascript ("var conversation_title = \"" & conversation_title & "\";")
+						execute t javascript ("var message = \"" & message & "\";")
 						execute t javascript jquery
 						execute t javascript whatsapp
 						return
@@ -17,7 +23,7 @@ on ExecuteJavascript(browser, jquery, whatsapp, conversation_title, message)
 			end repeat
 		end tell
 	end using terms from
-end ExecuteJavascript
+end execute_javascript
 
 on run(arguments)
 	set javascript_folder to POSIX path of ((the path to me as text) & "::")
@@ -37,6 +43,6 @@ on run(arguments)
 
 	set browsers to {"Google Chrome", "Google Chrome Canary"}
 	repeat with browser in browsers
-		ExecuteJavascript(browser, jquery, whatsapp, conversation_title, message)
+		execute_javascript(browser, jquery, whatsapp, conversation_title, message)
 	end repeat
 end run
