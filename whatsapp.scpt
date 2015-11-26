@@ -14,17 +14,26 @@ on run(arguments)
 	set conversation_title to first item of arguments
 	set message to second item of arguments
 
-	tell application "Google Chrome"
-		repeat with w in windows
-			repeat with t in tabs of w
-				if URL of t starts with "https://web.whatsapp.com/" then
-					execute t javascript ("var conversation_title = '" & conversation_title & "';")
-					execute t javascript ("var message = '" & message & "';")
-					execute t javascript jquery
-					execute t javascript whatsapp
-					return
-				end if
-			end repeat
-		end repeat
-	end tell
+	set browsers to {"Google Chrome", "Google Chrome Canary"}
+	repeat with browser in browsers
+		ExecuteJavascript(browser, jquery, whatsapp, conversation_title, message)
+	end repeat
 end run
+
+on ExecuteJavascript(browser, jquery, whatsapp, conversation_title, message)
+	using terms from application "Google Chrome"
+		tell application browser
+			repeat with w in windows
+				repeat with t in tabs of w
+					if URL of t starts with "https://web.whatsapp.com/" then
+						execute t javascript ("var conversation_title = '" & conversation_title & "';")
+						execute t javascript ("var message = '" & message & "';")
+						execute t javascript jquery
+						execute t javascript whatsapp
+						return
+					end if
+				end repeat
+			end repeat
+		end tell
+	end using terms from
+end ExecuteJavascript
