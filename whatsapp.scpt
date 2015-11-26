@@ -1,5 +1,8 @@
 on ExecuteJavascript(browser, jquery, whatsapp, conversation_title, message)
 	using terms from application "Google Chrome"
+		if not exists application browser then
+			return
+		end if
 		tell application browser
 			repeat with w in windows
 				repeat with t in tabs of w
