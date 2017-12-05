@@ -1,29 +1,38 @@
-var dispatch = function(target, eventType, char) {
-    var evt = document.createEvent('TextEvent');
-    evt.initTextEvent (eventType, true, true, window, char, 0, 'en-US');
-    target.focus();
-    target.dispatchEvent(evt);
-};
+function simulateMouseEvents(element, eventName) {
+    var mouseEvent= document.createEvent('MouseEvents');
+    mouseEvent.initEvent(eventName, true, true);
+    element.dispatchEvent(mouseEvent);
+}
 
 var selectConversation = function() {
   return new Promise(function(resolve, reject) {
-    var conversation = document.querySelector('[title="' + conversation_title + '"]');
-    conversation.click();
-    resolve();
+    if ( conversation_title == '/' || conversation_title == '' ) {
+      resolve();
+    }
+    else {
+      // also checking .ellipsify as Group Members will also be shown with title attribute
+      var $conversation = jQuery('.ellipsify[title^="' + conversation_title + '"]');
+      // fallback to "any substring" if a conversation starting with the arg is not found
+      var conversation = $conversation.length ? $conversation[0] : jQuery('.ellipsify[title*="' + conversation_title + '"]')[0];
+      conversation.click();
+      simulateMouseEvents( conversation , 'mousedown');
+      resolve();
+    }
   });
 };
 
 var insertMessage = function() {
   return new Promise(function(resolve, reject) {
-    var textInput = document.querySelector('div.input');
-    dispatch(textInput, 'textInput', message);
+    var $element = jQuery("div.pluggable-input-body").text(message);
+    const event = new Event('input', { bubbles: true })
+    $element[0].dispatchEvent(event)
     resolve();
   });
 };
 
 var sendMessage = function() {
   return new Promise(function(resolve, reject) {
-    var sendButton = document.querySelector('button.send-container');
+    var sendButton = document.querySelector('button.compose-btn-send');
     sendButton.click();
     resolve();
   });

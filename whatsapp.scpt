@@ -39,7 +39,13 @@ on run(arguments)
 	close access whatsapp_file
 
 	set conversation_title to first item of arguments
-	set message to second item of arguments
+
+    set rest_arguments to {}
+    repeat with i from 2 to length of arguments
+        copy item i of arguments to the end of rest_arguments
+    end repeat
+    set AppleScript's text item delimiters to space
+	set message to rest_arguments as string
 
 	set browsers to {"Google Chrome", "Google Chrome Canary"}
 	repeat with browser in browsers
