@@ -6,10 +6,18 @@ function simulateMouseEvents(element, eventName) {
 
 var selectConversation = function() {
   return new Promise(function(resolve, reject) {
-    var conversation = jQuery('[title^="' + conversation_title + '"]')[0];
-    conversation.click();
-    simulateMouseEvents( conversation , 'mousedown');
-    resolve();
+    if ( conversation_title == '/' || conversation_title == '' ) {
+      resolve();
+    }
+    else {
+      // also checking .ellipsify as Group Members will also be shown with title attribute
+      var $conversation = jQuery('.ellipsify[title^="' + conversation_title + '"]');
+      // fallback to "any substring" if a conversation starting with the arg is not found
+      var conversation = $conversation.length ? $conversation[0] : jQuery('.ellipsify[title*="' + conversation_title + '"]')[0];
+      conversation.click();
+      simulateMouseEvents( conversation , 'mousedown');
+      resolve();
+    }
   });
 };
 
