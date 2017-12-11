@@ -39,7 +39,17 @@ var sendMessage = function() {
 };
 
 selectConversation().then(function() {
-  insertMessage().then(function() {
-    sendMessage().then(function() {});
-  });
+  if( $.trim(message) != '' ) {
+    msgs = '';
+    insertMessage().then(function() {
+      sendMessage().then(function() {});
+    });
+  }
+  else {
+    msgs = jQuery("[data-pre-plain-text]").slice(-5)
+             .toArray().map( function(j) {
+               return j.dataset.prePlainText +
+                 j.innerText.replace( /\d+:\d+\n/, '' )
+             }).join('');
+  }
 });

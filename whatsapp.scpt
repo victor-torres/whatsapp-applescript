@@ -17,7 +17,8 @@ on execute_javascript(browser, jquery, whatsapp, conversation_title, message)
 						execute t javascript ("var message = \"" & message & "\";")
 						execute t javascript jquery
 						execute t javascript whatsapp
-						return
+                        set msgs to execute t javascript "msgs" 
+                        if msgs is not "" then return msgs
 					end if
 				end repeat
 			end repeat
@@ -49,6 +50,7 @@ on run(arguments)
 
 	set browsers to {"Google Chrome", "Google Chrome Canary"}
 	repeat with browser in browsers
-		execute_javascript(browser, jquery, whatsapp, conversation_title, message)
+		return execute_javascript(browser, jquery, whatsapp, conversation_title, message)
 	end repeat
+
 end run
